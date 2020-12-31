@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000
 
 app.use(express.json())   //to automatically pass incoming Jason to an object so we can access it in our request handlers.
 
+//Create Users
 app.post('/users', (req, res) => {
     const user = new User(req.body)
 
@@ -17,6 +18,35 @@ app.post('/users', (req, res) => {
         res.status(400).send(e)
         //res.send(e)
     })
+})
+
+//Read Users
+
+app.get('/users', (req, res) => {
+    User.find({}).then((users) => {
+        res.send(users)
+    }).catch((e) => {
+        res.status(500).send()
+    })
+})
+
+//Read a user by UserID
+
+app.get('/users/:id', (req, res) => {
+    const _id = req.params.id
+
+    User.findById(_id).then((user) => {
+        
+        if (!user) {
+            
+            return res.status(404).send()
+        }
+
+        res.send(user)
+    }).catch((e) => {
+        res.status(500).send()
+    })
+
 })
 
 app.post('/tasks', (req, res) => {
