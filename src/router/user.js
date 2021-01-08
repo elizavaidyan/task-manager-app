@@ -14,6 +14,18 @@ router.post('/users', async (req, res) => {
     }
 })
 
+//Login
+
+router.post('/users/login', async (req, res) => {
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password)  //It calls the userSchema.statistics.findByCredentials in user.js in models directory
+        //console.log(user) 
+        res.send(user)
+    } catch (e) {
+        res.status(400).send()
+    }
+})
+
 //Read Users
 
 router.get('/users', async (req, res) => {
