@@ -13,9 +13,21 @@ app.use(express.json())   //to automatically pass incoming Jason to an object so
 app.use(userRouter)
 app.use(taskRouter)
 
-
-
-
 app.listen(port, () => {
     console.log('Server is up on ' + port)
 })
+
+const bcrypt = require('bcryptjs')
+
+const myFunction = async () => {
+    const password = 'Red12345!'    //plaintext password
+    const hashedPassword = await bcrypt.hash(password, 8)
+
+    console.log(password)
+    console.log(hashedPassword)
+
+    const isMatch = await bcrypt.compare('red12345!', hashedPassword)
+    console.log(isMatch)
+}
+
+myFunction()
